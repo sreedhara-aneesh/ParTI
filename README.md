@@ -1,8 +1,16 @@
-# READ ME.
+# READ ME
 
 This is a modification to ParTI containing my own implementations of LEXI-ORDER and BFS-MCS, along with a some testing scripts.
 
 This is configured to run on NC State University's ARC Cluster.
+
+## Files Changed
+
+See this commit: [https://github.com/sreedhara-aneesh/ParTI/commit/2a5e673daa8829168c17cb36cbf371a003b68a06](https://github.com/sreedhara-aneesh/ParTI/commit/2a5e673daa8829168c17cb36cbf371a003b68a06) to see all changed files, along with my implementations of LEXI-ORDER and BFS-MCS.
+
+The majority of changes are in this file: [https://github.com/sreedhara-aneesh/ParTI/blob/master/src/sptensor/reorder.c](https://github.com/sreedhara-aneesh/ParTI/blob/master/src/sptensor/reorder.c) from lines 730 - 1445. This is not ALL changes, but this is where the main logic is.
+
+## Running Tests
 
 Upon logging in to the ARC Cluster, here are the actions I took to execute tests.
 
