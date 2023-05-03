@@ -111,12 +111,36 @@ typedef struct {
  * Sparse tensor type, COO format
  */
 typedef struct {
-    sptIndex nmodes;      /// # modes
-    sptIndex * sortorder;  /// the order in which the indices are sorted
-    sptIndex * ndims;      /// size of each mode, length nmodes
-    sptNnzIndex nnz;         /// # non-zeros
-    sptIndexVector * inds;       /// indices of each element, length [nmodes][nnz]
-    sptValueVector values;      /// non-zero values, length nnz
+    /**
+     * Number of modes (dimensions).
+     */
+    sptIndex nmodes;
+    /**
+     * Order in which the indices are sorted.
+     */
+    sptIndex * sortorder;
+    /**
+     * Size of each mode (dimension).
+     * If ndims[0] = 5, then mode 0 is of size 5.
+     * In other words, there are 5 possible values for that dimension.
+     */
+    sptIndex * ndims;
+    /**
+     * Number of non-zero values.
+     */
+    sptNnzIndex nnz;
+    /**
+     * Array of vectors for each mode (dimension).
+     * Each row (vector) is a mode (dimension).
+     * Each col (value in vector) is the index in that mode for a non-zero value.
+     * So for example, inds[0].data[1] is the index in mode 0 for non-zero value at index 1 of values.data.
+     * Size of this vector is [nmodes][nnz]
+     */
+    sptIndexVector * inds;
+    /**
+     * Non-zero values.
+     */
+    sptValueVector values;
 } sptSparseTensor;
 
 

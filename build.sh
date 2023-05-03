@@ -18,7 +18,7 @@ CMAKE_FLAGS=("${CMAKE_FLAGS[@]}" "$@")
 mkdir -p build
 cd build
 
-cmake "${CMAKE_FLAGS[@]}" ..
+cmake3 "${CMAKE_FLAGS[@]}" ..
 
 make
 

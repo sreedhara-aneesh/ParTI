@@ -84,21 +84,21 @@ int main(int argc, char ** argv) {
     int c;
     for(;;) {
         static struct option long_options[] = {
-            {"input", required_argument, 0, 'i'},
-            {"mode", required_argument, 0, 'm'},
-            {"output", optional_argument, 0, 'o'},
-            {"bs", required_argument, 0, 'b'},
-            {"ks", required_argument, 0, 'k'},
-            {"sortcase", optional_argument, 0, 's'},
-            {"impl-num", optional_argument, 0, 'p'},
-            {"relabel", optional_argument, 0, 'e'},
-            {"niters-renum", optional_argument, 0, 'n'},
-            {"cuda-dev-id", optional_argument, 0, 'd'},
-            {"rank", optional_argument, 0, 'r'},
-            {"nt", optional_argument, 0, 't'},
-            {"use-reduce", optional_argument, 0, 'u'},
-            {"help", no_argument, 0, 0},
-            {0, 0, 0, 0}
+                {"input", required_argument, 0, 'i'},
+                {"mode", required_argument, 0, 'm'},
+                {"output", optional_argument, 0, 'o'},
+                {"bs", required_argument, 0, 'b'},
+                {"ks", required_argument, 0, 'k'},
+                {"sortcase", optional_argument, 0, 's'},
+                {"impl-num", optional_argument, 0, 'p'},
+                {"relabel", optional_argument, 0, 'e'},
+                {"niters-renum", optional_argument, 0, 'n'},
+                {"cuda-dev-id", optional_argument, 0, 'd'},
+                {"rank", optional_argument, 0, 'r'},
+                {"nt", optional_argument, 0, 't'},
+                {"use-reduce", optional_argument, 0, 'u'},
+                {"help", no_argument, 0, 0},
+                {0, 0, 0, 0}
         };
         int option_index = 0;
         c = getopt_long(argc, argv, "i:m:o:b:k:s:e:d:r:t:u:n:", long_options, &option_index);
@@ -106,51 +106,51 @@ int main(int argc, char ** argv) {
             break;
         }
         switch(c) {
-        case 'i':
-            fi = fopen(optarg, "r");
-            sptAssert(fi != NULL);
-            printf("input file: %s\n", optarg); fflush(stdout);
-            break;
-        case 'o':
-            fo = fopen(optarg, "aw");
-            sptAssert(fo != NULL);
-            printf("output file: %s\n", optarg); fflush(stdout);
-            break;
-        case 'm':
-            sscanf(optarg, "%"PARTI_SCN_INDEX, &mode);
-            break;
-        case 'b':
-            sscanf(optarg, "%"PARTI_SCN_ELEMENT_INDEX, &sb_bits);
-            break;
-        case 'k':
-            sscanf(optarg, "%"PARTI_SCN_ELEMENT_INDEX, &sk_bits);
-            break;
-        case 's':
-            sscanf(optarg, "%d", &sortcase);
-            break;
-        case 'e':
-            sscanf(optarg, "%d", &relabel);
-            break;
-        case 'n':
-            sscanf(optarg, "%d", &niters_renum);
-            break;
-        case 'd':
-            sscanf(optarg, "%d", &cuda_dev_id);
-            break;
-        case 'r':
-            sscanf(optarg, "%u"PARTI_SCN_INDEX, &R);
-            break;
-        case 'u':
-            sscanf(optarg, "%d", &use_reduce);
-            break;
-        case 't':
-            sscanf(optarg, "%d", &nt);
-            break;
-        case '?':   /* invalid option */
-        case 'h':
-        default:
-            print_usage(argv);
-            exit(1);
+            case 'i':
+                fi = fopen(optarg, "r");
+                sptAssert(fi != NULL);
+                printf("input file: %s\n", optarg); fflush(stdout);
+                break;
+            case 'o':
+                fo = fopen(optarg, "aw");
+                sptAssert(fo != NULL);
+                printf("output file: %s\n", optarg); fflush(stdout);
+                break;
+            case 'm':
+                sscanf(optarg, "%"PARTI_SCN_INDEX, &mode);
+                break;
+            case 'b':
+                sscanf(optarg, "%"PARTI_SCN_ELEMENT_INDEX, &sb_bits);
+                break;
+            case 'k':
+                sscanf(optarg, "%"PARTI_SCN_ELEMENT_INDEX, &sk_bits);
+                break;
+            case 's':
+                sscanf(optarg, "%d", &sortcase);
+                break;
+            case 'e':
+                sscanf(optarg, "%d", &relabel);
+                break;
+            case 'n':
+                sscanf(optarg, "%d", &niters_renum);
+                break;
+            case 'd':
+                sscanf(optarg, "%d", &cuda_dev_id);
+                break;
+            case 'r':
+                sscanf(optarg, "%u"PARTI_SCN_INDEX, &R);
+                break;
+            case 'u':
+                sscanf(optarg, "%d", &use_reduce);
+                break;
+            case 't':
+                sscanf(optarg, "%d", &nt);
+                break;
+            case '?':   /* invalid option */
+            case 'h':
+            default:
+                print_usage(argv);
+                exit(1);
         }
     }
 
@@ -174,7 +174,7 @@ int main(int argc, char ** argv) {
         for(sptIndex m = 0; m < X.nmodes; ++m) {
             map_inds[m] = (sptIndex *)malloc(X.ndims[m] * sizeof (sptIndex));
             spt_CheckError(!map_inds[m], "MTTKRP HiCOO", NULL);
-            for(sptIndex i = 0; i < X.ndims[m]; ++i) 
+            for(sptIndex i = 0; i < X.ndims[m]; ++i)
                 map_inds[m][i] = i;
         }
 
@@ -182,7 +182,7 @@ int main(int argc, char ** argv) {
         sptNewTimer(&renumber_timer, 0);
         sptStartTimer(renumber_timer);
 
-        if ( relabel == 1 || relabel == 2) { /* Set the Lexi-order or BFS-like renumbering */
+        if ( relabel == 1 || relabel == 2 || relabel == 4 || relabel == 5) { /* Set the Lexi-order or BFS-like renumbering */
             sptIndexRenumber(&X, map_inds, relabel, niters_renum, nt);
         }
         if ( relabel == 3) { /* Set randomly renumbering */
@@ -208,15 +208,15 @@ int main(int argc, char ** argv) {
     sptIndex nmodes = X.nmodes;
     U = (sptMatrix **)malloc((nmodes+1) * sizeof(sptMatrix*));
     for(sptIndex m=0; m<nmodes+1; ++m) {
-      U[m] = (sptMatrix *)malloc(sizeof(sptMatrix));
+        U[m] = (sptMatrix *)malloc(sizeof(sptMatrix));
     }
     sptIndex max_ndims = 0;
     for(sptIndex m=0; m<nmodes; ++m) {
-      sptAssert(sptNewMatrix(U[m], X.ndims[m], R) == 0);
-      sptAssert(sptRandomizeMatrix(U[m], X.ndims[m], R) == 0);
-      // sptAssert(sptConstantMatrix(U[m], 1) == 0);
-      if(X.ndims[m] > max_ndims)
-        max_ndims = X.ndims[m];
+        sptAssert(sptNewMatrix(U[m], X.ndims[m], R) == 0);
+        sptAssert(sptRandomizeMatrix(U[m], X.ndims[m], R) == 0);
+        // sptAssert(sptConstantMatrix(U[m], 1) == 0);
+        if(X.ndims[m] > max_ndims)
+            max_ndims = X.ndims[m];
     }
     sptAssert(sptNewMatrix(U[nmodes], max_ndims, R) == 0);
     sptAssert(sptConstantMatrix(U[nmodes], 0) == 0);
@@ -293,23 +293,23 @@ int main(int argc, char ** argv) {
             }
 
             switch (sortcase) {
-            case 0:
-            case 3:
-            case 4:
-            case 5:
-                mats_order[0] = mode;
-                for(sptIndex i=1; i<nmodes; ++i)
-                    mats_order[i] = (mode+i) % nmodes;
-                break;
-            case 1: // Reverse of mode_order except the 1st one
-                mats_order[0] = mode;
-                for(sptIndex i=1; i<nmodes; ++i)
-                    mats_order[i] = mode_order[nmodes - i];
-                break;
-            case 2: // Totally reverse of mode_order
-                for(sptIndex i=0; i<nmodes; ++i)
-                    mats_order[i] = mode_order[nmodes - i];
-                break;
+                case 0:
+                case 3:
+                case 4:
+                case 5:
+                    mats_order[0] = mode;
+                    for(sptIndex i=1; i<nmodes; ++i)
+                        mats_order[i] = (mode+i) % nmodes;
+                    break;
+                case 1: // Reverse of mode_order except the 1st one
+                    mats_order[0] = mode;
+                    for(sptIndex i=1; i<nmodes; ++i)
+                        mats_order[i] = mode_order[nmodes - i];
+                    break;
+                case 2: // Totally reverse of mode_order
+                    for(sptIndex i=0; i<nmodes; ++i)
+                        mats_order[i] = mode_order[nmodes - i];
+                    break;
             }
 
             /* For warm-up caches, timing not included */
@@ -328,7 +328,7 @@ int main(int argc, char ** argv) {
                 }
             }
 
-            
+
             sptTimer timer;
             sptNewTimer(&timer, 0);
             sptStartTimer(timer);
@@ -360,7 +360,7 @@ int main(int argc, char ** argv) {
                 double aver_time = sptPrintAverageElapsedTime(timer, niters, prg_name);
 
                 double gflops = (double)nmodes * R * X.nnz / aver_time / 1e9;
-                uint64_t bytes = ( nmodes * sizeof(sptIndex) + sizeof(sptValue) ) * X.nnz; 
+                uint64_t bytes = ( nmodes * sizeof(sptIndex) + sizeof(sptValue) ) * X.nnz;
                 for (sptIndex m=0; m<nmodes; ++m) {
                     bytes += X.ndims[m] * R * sizeof(sptValue);
                 }
@@ -373,7 +373,7 @@ int main(int argc, char ** argv) {
                 if (relabel > 0) {
                     sptMatrixInverseShuffleIndices(U[nmodes], map_inds[mode]);
                 }
-                    sptAssert(sptDumpMatrix(U[nmodes], fo) == 0);
+                sptAssert(sptDumpMatrix(U[nmodes], fo) == 0);
             }
 
         } // End nmodes
@@ -431,23 +431,23 @@ int main(int argc, char ** argv) {
 
         sptIndex * mats_order = (sptIndex*)malloc(nmodes * sizeof(sptIndex));
         switch (sortcase) {
-        case 0:
-        case 3:
-        case 4:
-        case 5:
-            mats_order[0] = mode;
-            for(sptIndex i=1; i<nmodes; ++i)
-                mats_order[i] = (mode+i) % nmodes;
-            break;
-        case 1: // Reverse of mode_order except the 1st one
-            mats_order[0] = mode;
-            for(sptIndex i=1; i<nmodes; ++i)
-                mats_order[i] = mode_order[nmodes - i];
-            break;
-        case 2: // Totally reverse of mode_order
-            for(sptIndex i=0; i<nmodes; ++i)
-                mats_order[i] = mode_order[nmodes - i];
-            break;
+            case 0:
+            case 3:
+            case 4:
+            case 5:
+                mats_order[0] = mode;
+                for(sptIndex i=1; i<nmodes; ++i)
+                    mats_order[i] = (mode+i) % nmodes;
+                break;
+            case 1: // Reverse of mode_order except the 1st one
+                mats_order[0] = mode;
+                for(sptIndex i=1; i<nmodes; ++i)
+                    mats_order[i] = mode_order[nmodes - i];
+                break;
+            case 2: // Totally reverse of mode_order
+                for(sptIndex i=0; i<nmodes; ++i)
+                    mats_order[i] = mode_order[nmodes - i];
+                break;
         }
 
         /* For warm-up caches, timing not included */
@@ -466,7 +466,7 @@ int main(int argc, char ** argv) {
             }
         }
 
-        
+
         sptTimer timer;
         sptNewTimer(&timer, 0);
         sptStartTimer(timer);
@@ -492,7 +492,7 @@ int main(int argc, char ** argv) {
             double aver_time = sptPrintAverageElapsedTime(timer, niters, "CPU SpTns MTTKRP");
 
             double gflops = (double)nmodes * R * X.nnz / aver_time / 1e9;
-            uint64_t bytes = ( nmodes * sizeof(sptIndex) + sizeof(sptValue) ) * X.nnz; 
+            uint64_t bytes = ( nmodes * sizeof(sptIndex) + sizeof(sptValue) ) * X.nnz;
             for (sptIndex m=0; m<nmodes; ++m) {
                 bytes += X.ndims[m] * R * sizeof(sptValue);
             }
