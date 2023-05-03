@@ -28,6 +28,9 @@ The tests should then proceed to download tensors and then execute tests.
 
 This takes quite some time!
 
+
+# EVERYTHING BELOW THIS IS FROM THE BASE IMPLEMENTATION OF PARTI AND MAY NOT REFLECT MY CHANGES.
+
 ------
 ParTI!
 ------
