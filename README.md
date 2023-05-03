@@ -1,3 +1,26 @@
+# READ ME.
+
+This is a modification to ParTI containing my own implementations of LEXI-ORDER and BFS-MCS, along with a some testing scripts.
+
+This is configured to run on NC State University's ARC Cluster.
+
+Upon logging in to the ARC Cluster, here are the actions I took to execute tests.
+
+Firstly, get your compute nodes.
+```bash
+srun -N 4 -n 32 -p normal --pty /bin/bash
+```
+
+Next, run the below, replacing TENSOR_DIR with where you would like tensors to be stored.
+```bash
+TENSOR_DIR=/mnt/beegfs/$USER/tensor_dir OMP_NUM_THREADS=32 ./full_run.sh > test.1.out; exit
+```
+
+The tests should then proceed to download tensors and then execute tests.
+
+This takes quite some time!
+
+------
 ParTI!
 ------
 _(A Parallel Tensor Infrastructure!)_
